@@ -24,7 +24,7 @@ process.on("unhandledRejection", (err) => {
 const port = process.env.PORT || 8080;
 
 const server = app.listen(port, async () => {
-  await runSchedulers();
+//   await runSchedulers();
   console.log(`App running on port ${port}`);
 });
-runSockets(server);
+// runSockets(server);
