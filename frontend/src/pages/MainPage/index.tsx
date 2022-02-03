@@ -25,40 +25,59 @@ const MainPage: React.FC = () => {
   const handleSubmit = async () => {
     const uniqueId = localStorage.getItem("uniqueId");
     console.log(uniqueId);
-    const resp1: { url: string } = (
-      await api.get(
-        `http://192.168.1.237:4000/getPayRequest?uniqueId=${uniqueId}`
-      )
-    ).data;
-    console.log(resp1);
-    const resp2: {
-      minSendable: number;
-      maxSendable: number;
-      callback: string;
-    } = (await api.get(resp1.url)).data;
-    if (checkSatsAmount(resp2.minSendable, resp2.maxSendable)) {
-      const resp3: { pr: string } = (
-        await api.get(resp2.callback + `?amount=${satsAmount}`)
-      ).data;
-      if (resp3.pr) {
-        console.log(resp3.pr);
+    try {
+      const resp = await api.post(
+        `/opennode/createPaymentRequest/${uniqueId}`,
+        {
+          satsAmount,
+        }
+      );
+      console.log(resp);
+      //     setDialogData({
+      //       qrcodeData: resp.data.charge.lightning_invoice.payreq,
+      //       open: true,
+      //       title: "Pay Invoice",
+      //     });
+      socket.once("withdraw lnurl", (data) => {
+        console.log(data);
         setDialogData({
-          qrcodeData: resp3.pr,
+          qrcodeData: data.uri,
           open: true,
-          title: "Pay Invoice",
+          title: "Save it",
         });
-        socket.once("withdraw lnurl", (data) => {
-          console.log(data);
-          setDialogData({
-            qrcodeData: data.data.encoded,
-            open: true,
-            title: "Save it",
-          });
-        });
-      }
-    } else {
-      // error
+      });
+    } catch (err) {
+      console.log("create payment request ERROR", JSON.stringify(err));
     }
+    // console.log(resp1);
+    // const resp2: {
+    //   minSendable: number;
+    //   maxSendable: number;
+    //   callback: string;
+    // } = (await api.get(resp1.url)).data;
+    // if (checkSatsAmount(resp2.minSendable, resp2.maxSendable)) {
+    //   const resp3: { pr: string } = (
+    //     await api.get(resp2.callback + `?amount=${satsAmount}`)
+    //   ).data;
+    //   if (resp3.pr) {
+    //     console.log(resp3.pr);
+    //     setDialogData({
+    //       qrcodeData: resp3.pr,
+    //       open: true,
+    //       title: "Pay Invoice",
+    //     });
+    //     socket.once("withdraw lnurl", (data) => {
+    //       console.log(data);
+    //       setDialogData({
+    //         qrcodeData: data.data.encoded,
+    //         open: true,
+    //         title: "Save it",
+    //       });
+    //     });
+    //   }
+    // } else {
+    //   // error
+    // }
   };
 
   const checkSatsAmount = (min: Number, max: Number) => {
@@ -83,7 +102,7 @@ const MainPage: React.FC = () => {
           }}
         />
         <Button variant="contained" onClick={handleSubmit}>
-          Contained
+          Submit
         </Button>
       </Stack>
       <QrCodeDialog {...dialogData} onClose={onCloseDialog} />

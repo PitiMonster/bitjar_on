@@ -4,7 +4,7 @@ export let socket: Socket;
 
 export const runSocket = () => {
   if (!socket)
-    socket = io("http://192.168.1.237:4000", {
+    socket = io("http://localhost:8080", {
       reconnectionDelay: 1000,
       reconnection: true,
       transports: ["websocket"],

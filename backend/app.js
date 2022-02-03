@@ -32,6 +32,9 @@ app.use("/api", limiter);
 // parse body to  req.body in JSON format
 app.use(express.json());
 
+// support 'content-type': 'application/x-www-form-urlencoded'
+app.use(express.urlencoded({ extended: true }));
+
 // data sanitization against NoSQL query injection
 // app.use(mongoSanitize());
 

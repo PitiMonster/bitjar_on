@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 
 const app = require("./app");
+const runSockets = require("./websockets");
+
 
 // GLOBAL UNCAUGHT ERROR HANLDERS
 
@@ -24,7 +26,6 @@ process.on("unhandledRejection", (err) => {
 const port = process.env.PORT || 8080;
 
 const server = app.listen(port, async () => {
-//   await runSchedulers();
   console.log(`App running on port ${port}`);
 });
-// runSockets(server);
+runSockets(server);
