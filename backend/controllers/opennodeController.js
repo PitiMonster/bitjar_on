@@ -1,7 +1,7 @@
 const opennode = require("opennode");
 const { emitEvent } = require("../websockets/emitters");
 
-opennode.setCredentials(process.env.OPENNODE_API_KEY_WITHDRAW, "dev");
+opennode.setCredentials(process.env.OPENNODE_API_KEY_WITHDRAW, "live");
 
 exports.createPaymentRequest = (req, res, next) => {
     // get user_id, amount, description from req.query
