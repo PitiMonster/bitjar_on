@@ -33,11 +33,11 @@ const MainPage: React.FC = () => {
         }
       );
       console.log(resp);
-      //     setDialogData({
-      //       qrcodeData: resp.data.charge.lightning_invoice.payreq,
-      //       open: true,
-      //       title: "Pay Invoice",
-      //     });
+      setDialogData({
+        qrcodeData: resp.data.charge.lightning_invoice.payreq,
+        open: true,
+        title: "Pay Invoice",
+      });
       socket.once("withdraw lnurl", (data) => {
         console.log(data);
         setDialogData({

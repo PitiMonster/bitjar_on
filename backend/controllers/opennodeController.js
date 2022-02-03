@@ -1,5 +1,5 @@
 const opennode = require("opennode");
-const { emitWithdrawLnurl } = require("../websockets/emitters");
+const { emitEvent } = require("../websockets/emitters");
 
 opennode.setCredentials(process.env.OPENNODE_API_KEY_WITHDRAW, "dev");
 
@@ -82,7 +82,7 @@ exports.handleIncomingInvoice = (req, res, next) => {
                             uri: response.uri,
                         },
                     };
-                    emitWithdrawLnurl(body);
+                    emitEvent(body);
                 })
                 .catch((error) => {
                     console.error(`${error.status} | ${error.message}`);
