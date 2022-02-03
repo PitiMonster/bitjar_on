@@ -34,7 +34,7 @@ const MainPage: React.FC = () => {
       );
       console.log(resp);
       setDialogData({
-        qrcodeData: resp.data.charge.lightning_invoice.payreq,
+        qrcodeData: "lightning:" + resp.data.charge.lightning_invoice.payreq,
         open: true,
         title: "Pay Invoice",
       });
