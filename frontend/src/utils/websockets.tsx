@@ -4,7 +4,7 @@ export let socket: Socket;
 
 export const runSocket = () => {
   if (!socket)
-    socket = io("http://localhost:8080", {
+    socket = io("https://thawing-harbor-02998.herokuapp.com/", {
       reconnectionDelay: 1000,
       reconnection: true,
       transports: ["websocket"],
